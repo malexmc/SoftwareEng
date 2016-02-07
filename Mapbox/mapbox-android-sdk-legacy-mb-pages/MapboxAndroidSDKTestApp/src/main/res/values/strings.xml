@@ -38,12 +38,14 @@
     <string name="animatedMapButtonText">Animate</string>
     <string name="testAccessToken">pk.eyJ1IjoiYmxlZWdlIiwiYSI6IkRGLTFPU00ifQ.qJpq3jytAL9A-z_tkNypqg</string>
     <string name="customInfoWindowOnTouchMessage">Hey, I just customized the CustomInfoWindows\'s onTouchListener()!</string>
+    <string name="navigation">Navigation</string>>
+    <string name="navigationInputWelcome">Welcome to navigation!</string>
+    <string name="geoQuery1">https://api.mapbox.com/geocoding/v5/mapbox.places/</string>
+    <string name="geoQuery2">.json?access_token=pk.eyJ1IjoiYmxlZWdlIiwiYSI6IkRGLTFPU00ifQ.qJpq3jytAL9A-z_tkNypqg;</string>
+    <string name="directionQuery1">https://api.mapbox.com/v4/directions/mapbox.driving/</string>
+    <string name="directionQuery2">.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpamVuY3cxbzAwMG12ZGx4cGljbGtqMGUifQ.vpDqms08MBqoRgp667Yz5Q</string>
+    <string name="NavHereUnderlined"><u>Navigate Here...</u></string>>
     <string name="navigationdrawer_open">open</string>
     <string name="navigationdrawer_close">close</string>
-    <string name="customAccessToken">pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpamVuY3cxbzAwMG12ZGx4cGljbGtqMGUifQ.vpDqms08MBqoRgp667Yz5Q</string>
-    <string name="navigation">Navigation</string>
-    <string name="query1">https://api.mapbox.com/geocoding/v5/mapbox.places/</string>
-    <string name="query2" formatted="false">.json?access_token=</string>
-    <string name="accessToken">pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpamVuY3cxbzAwMG12ZGx4cGljbGtqMGUifQ.vpDqms08MBqoRgp667Yz5Q</string>
 
 </resources>

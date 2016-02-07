@@ -1,7 +1,6 @@
 package com.mapbox.mapboxsdk.android.testapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,42 +16,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import com.mapbox.mapboxsdk.constants.Style;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
-import com.mapbox.mapboxsdk.views.MapView;
-import com.mapbox.mapboxsdk.geometry.BoundingBox;
+
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.overlay.PathOverlay;
-import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.MapboxTileLayer;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.WebSourceTileLayer;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-	static final int QUERY_REQUEST = 19309;
 
 	private DrawerLayout          mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private NavigationView        mNavigationView;
 	private Menu                  testFragmentNames;
 	private int selectedFragmentIndex = 0;
-	private MapView mapView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		testFragmentNames.add(Menu.NONE, i++, Menu.NONE, getString(R.string.rotatedMapTestMap));
 		testFragmentNames.add(Menu.NONE, i++, Menu.NONE, getString(R.string.clusteredMarkersTestMap));
 		testFragmentNames.add(Menu.NONE, i++, Menu.NONE, getString(R.string.mbTilesTestMap));
-		testFragmentNames.add(Menu.NONE, i, Menu.NONE, getString(R.string.draggableMarkersTestMap));
+        testFragmentNames.add(Menu.NONE, i, Menu.NONE, getString(R.string.draggableMarkersTestMap));
 
 
 		// Set the drawer toggle as the DrawerListener
@@ -131,8 +109,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		Fragment fragment;
 
 		switch (position) {
+
 			case 0:
 				fragment = new NavigationFragment();
+
 				break;
 			case 1:
 				fragment = new MainTestFragment();
@@ -191,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			case 19:
 				fragment = new MBTilesTestFragment();
 				break;
-			case 20:
-				fragment = new DraggableMarkersTestFragment();
-				break;
+            case 20:
+                fragment = new DraggableMarkersTestFragment();
+                break;
 			default:
 				fragment = new MainTestFragment();
 				break;
@@ -204,8 +184,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment)
 				.commit();
-
-		mDrawerLayout.closeDrawer(mNavigationView);
 	}
 
 	@Override
@@ -228,32 +206,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 
-	public void onAddrClick(View v) {
-		String query = getString(R.string.query1) + "1600+pennsylvania+ave+nw" + getString(R.string.query2) + getString(R.string.testAccessToken );
-		String address = "1600pennsylvaniaAvenue";
+	public void navSearchClick(View v) {
 
-		Context radda = MainActivity.this.getApplicationContext();
+		//Build the specific search query
+		String query = getString(R.string.geoQuery1) + "286+Ludlow+Avenue" + getString(R.string.geoQuery2) + getString(R.string.testAccessToken );
+
+		//This address is explicit only for debugging purposes. Will depend on user input later.
+		String address = "6618+Applewood+Blvd.";
+
+
+		Context ourContext = MainActivity.this.getApplicationContext();
 		LatLng currentLatLng = new LatLng(0,0);
 		try {
 
-			currentLatLng = getLocationFromAddress(radda, address);
+			currentLatLng = getLocationFromAddress(ourContext, address);
+			List<Address> radda = getAddressfromLocation(ourContext, currentLatLng);
 			String stop = "stop";
 
 		} catch(Exception e) {}
 
-		//super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		//With our Lat and Lng set, make a navigation_map fragment, and pass the data to it.
+		Fragment navMap = new NavigationMap();
+		Bundle args = new Bundle();
+		args.putDouble("Latitude",  currentLatLng.getLatitude());
+		args.putDouble("Longitude", currentLatLng.getLongitude());
+		navMap.setArguments(args);
 
-		/** Create a mapView and give it some properties */
-		mapView = (MapView) findViewById(R.id.mapview);
-		//mapView.setStyleUrl(Style.MAPBOX_STREETS);
-		//mapView.setCenterCoordinate(currentLatLng);
-		//mapView.setZoomLevel(11);
+		//Switch context to this bad boy.
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, navMap, "navMapTag")
+				.commit();
 
 
-		mapView.setVisibility(View.VISIBLE);
+
+
+
 	}
 
+	//Converts an address to a Latitude and Longitude
 	public LatLng getLocationFromAddress(Context context, String strAddress) {
 
 		Geocoder coder = new Geocoder(context);
@@ -277,5 +268,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return p1;
 	}
 
+	public List<Address> getAddressfromLocation(Context context, LatLng paramLatLng) {
 
+		Geocoder coder = new Geocoder(context);
+		List<Address> address = null;
+		LatLng p1 = null;
+
+		try {
+			address = coder.getFromLocation(paramLatLng.getLatitude(), paramLatLng.getLongitude(), 1);
+			if (address == null) {
+				return null;
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return address;
+	}
 }

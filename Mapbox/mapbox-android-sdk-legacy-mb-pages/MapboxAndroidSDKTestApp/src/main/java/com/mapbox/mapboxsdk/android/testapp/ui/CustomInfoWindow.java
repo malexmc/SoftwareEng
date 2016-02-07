@@ -38,7 +38,7 @@ public class CustomInfoWindow extends InfoWindow {
      */
     @Override
     public void onOpen(Marker overlayItem) {
-        String title = overlayItem.getTitle();
-        ((TextView) mView.findViewById(R.id.customTooltip_title)).setText(title);
+        //String title = overlayItem.getTitle();
+        //((TextView) mView.findViewById(R.id.currentLocationTooltip));
     }
 }
