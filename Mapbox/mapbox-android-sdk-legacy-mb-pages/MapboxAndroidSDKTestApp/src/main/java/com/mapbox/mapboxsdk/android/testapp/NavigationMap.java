@@ -286,3 +286,14 @@ public class NavigationMap extends Fragment {
         }
     }
 }
+
+class TaskParameters{
+    StringBuffer data;
+    String url = null;
+    TextView JSONStorage;
+    
+    public TaskParameters(StringBuffer argData,String argURL){
+        data = argData;
+        url = argURL;
+    }
+}
