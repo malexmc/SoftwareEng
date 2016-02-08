@@ -214,7 +214,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		String query = getString(R.string.geoQuery1) + "286+Ludlow+Avenue" + getString(R.string.geoQuery2) + getString(R.string.testAccessToken );
 
 		//This address is explicit only for debugging purposes. Will depend on user input later.
-		String address = "6618+Applewood+Blvd.";
+		String address = "((EditText)findViewByID(R.id.navAddressBar)).getText().toString());
+		address = address.replace(' ','+');
 
 		//try to get the latitude/longitude from the user-given address
 		Context ourContext = MainActivity.this.getApplicationContext();
