@@ -33,13 +33,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class RouteSelectionFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String  RoutesasString = "routes";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private JSONArray routesArray;
@@ -48,19 +45,15 @@ public class RouteSelectionFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public RouteSelectionFragment() {
-        // Required empty public constructor
-    }
+    // Required empty public constructor
+    public RouteSelectionFragment() {}
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * 
      * @return A new instance of fragment NavigationFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static RouteSelectionFragment newInstance(String param1, String param2) {
         RouteSelectionFragment fragment = new RouteSelectionFragment();
         Bundle args = new Bundle();
@@ -70,27 +63,14 @@ public class RouteSelectionFragment extends Fragment {
         return fragment;
     }
 
-    public static RouteSelectionFragment createInstance(String routes) {
-        RouteSelectionFragment newFragment = new RouteSelectionFragment();
-        Bundle args = new Bundle();
-        args.putString(RoutesasString, routes);
-        newFragment.setArguments(args);
-        return newFragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-
-            //View navSearchBarHandle = findViewById(R.id.navAddressBar);
-            //navAddressBarHandle.setVisibility(View.VISIBLE);
-
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,24 +79,15 @@ public class RouteSelectionFragment extends Fragment {
         navMap = (NavigationMap) getFragmentManager().findFragmentByTag("navMapTag");
 
         try {
-            routesArray = new JSONArray(getArguments().getString(RoutesasString));//obj.getJSONArray("routes");
-        } catch (Exception ex) {
-            //Log.i(TAG, "Error getting json in NavRouteFrag.");
-            //Log.i(TAG, ex.getMessage());
-        }
+            routesArray = new JSONArray(getArguments().getString(RoutesasString));
+        } catch (Exception ex) {}
 
         // Add all the LineStrings for the routes to our private field
         jsonObjectRoutes = new ArrayList<JSONObject>();
         for (int ii = 0; ii < routesArray.length(); ii++) {
             try {
                 jsonObjectRoutes.add(routesArray.getJSONObject(ii));
-                //JSONObject routeAsJson = jsonRoutesArray.getJSONObject(ii);
-                //routesAsLineStrings.add((LineString) GeoJSON.parse(routeAsJson.getJSONObject("geometry")));
-            } catch (Exception ex) {
-                String exMessage = ex.getMessage();
-                //Log.i(TAG, "Exception in onCreateView() for NavigatinRoutesFragment, iteration " + ii);
-                //Log.i(TAG, exMessage);
-            }
+            } catch (Exception ex) {}
         }
 
         // Configure the adapter
@@ -124,27 +95,8 @@ public class RouteSelectionFragment extends Fragment {
         routesListView.setAdapter(new RoutesListAdapter(getActivity().getApplicationContext(),
                 R.layout.fragment_route_selection_single, jsonObjectRoutes));
 
-
         return view;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
 
     @Override
     public void onDetach() {
@@ -163,12 +115,10 @@ public class RouteSelectionFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-
-
+    //holds the route
     private class RoutesListAdapter extends ArrayAdapter<JSONObject> {
         private int resource;
         private RoutesListAdapter(Context context, int resource, List<JSONObject> objects) {
@@ -198,11 +148,7 @@ public class RouteSelectionFragment extends Fragment {
                         String stop = "stop";
                         navMap.displayRoute = tempLS;
                         getFragmentManager().popBackStackImmediate();
-                    } catch (Exception ex) {
-                        //Log.i(TAG, "Error in onClick for item in pos " + position + " in NavRouteFrag.");
-                        //Log.i(TAG, ex.getMessage());
-
-                    }
+                    } catch (Exception ex) {}
                 }
             });
 
@@ -217,8 +163,6 @@ public class RouteSelectionFragment extends Fragment {
                 routeInfoObj.routeDistanceInMiles.setText(decFormat.format(miles) + " miles");
             } catch (Exception ex) {
                 routeInfoObj.routeDistanceInMiles.setText("Error");
-                //Log.i(TAG, "Error getting dist for item in pos " + position + " in NavRouteFrag.");
-               // Log.i(TAG, ex.getMessage());
             }
 
             return convertView;
