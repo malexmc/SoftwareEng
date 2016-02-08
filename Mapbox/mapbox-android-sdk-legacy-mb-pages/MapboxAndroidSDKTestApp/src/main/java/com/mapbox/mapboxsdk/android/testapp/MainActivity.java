@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		String query = getString(R.string.geoQuery1) + "286+Ludlow+Avenue" + getString(R.string.geoQuery2) + getString(R.string.testAccessToken );
 
 		//This address is explicit only for debugging purposes. Will depend on user input later.
-		String address = ((EditText)findViewByID(R.id.navAddressBar)).getText().toString());
+		String address = ((EditText)findViewByID(R.id.navAddressBar)).getText().toString();
 		address = address.replace(' ','+');
 
 		//try to get the latitude/longitude from the user-given address
