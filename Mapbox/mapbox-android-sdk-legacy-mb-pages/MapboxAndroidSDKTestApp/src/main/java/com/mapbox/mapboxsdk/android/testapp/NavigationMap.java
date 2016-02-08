@@ -77,12 +77,9 @@ import java.util.concurrent.ExecutionException;
  * create an instance of this fragment.
  */
 public class NavigationMap extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "Latitude";
     private static final String ARG_PARAM2 = "Longitude";
 
-    // TODO: Rename and change types of parameters
     private Double Latitude;
     private Double Longitude;
     private Double currentLat;
@@ -94,27 +91,9 @@ public class NavigationMap extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public NavigationMap() {
-        // Required empty public constructor
-    }
+    // Required empty public constructor
+    public NavigationMap() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param Latitude  Parameter 1.
-     * @param Longitude Parameter 2.
-     * @return A new instance of fragment NavigationMap.
-     */
-    // TODO: Rename and change types and number of parameters
-//    public static NavigationMap newInstance(Integer localLatitude, Integer localLongitude) {
-//        NavigationMap fragment = new NavigationMap();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, localLatitude);
-//        args.putString(ARG_PARAM2, localLongitude);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +103,6 @@ public class NavigationMap extends Fragment {
         }
         currentLat = 40.1591525;
         currentLong = -74.0277742;
-
-
     }
 
     @Override
@@ -135,19 +112,23 @@ public class NavigationMap extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_navigation_map, container, false);
 
+        //prepare map
         mv = (MapView) view.findViewById(R.id.navigationMapView);
         mv.setCenter(new LatLng(Latitude, Longitude));
         mv.setZoom(14);
 
+        //getting addresses
         Context ourContext = this.getActivity();
-        List<Address> addresses = getAddressfromLocation(ourContext, new LatLng(Latitude, Longitude));
+        List<Address> addresses = MainActivity.getAddressfromLocation(ourContext, new LatLng(Latitude, Longitude));
         Address currentAddress = addresses.get(0);
 
+        //add marker
         Marker cap = new Marker(mv, currentAddress.getAddressLine(0), currentAddress.getAddressLine(1), new LatLng(Latitude, Longitude));
         cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
         cap.setToolTip(new NavCustomInfoWindow( mv, this, getFragmentManager() ) );
         mv.addMarker(cap);
 
+        //route for navigation
         if (displayRoute != null) {
             OverlayRouteFromGeoJsonLineString(displayRoute);
         }
@@ -155,25 +136,6 @@ public class NavigationMap extends Fragment {
         return view;
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
 
     @Override
     public void onDetach() {
@@ -192,35 +154,13 @@ public class NavigationMap extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    public List<Address> getAddressfromLocation(Context context, LatLng paramLatLng) {
-
-        Geocoder coder = new Geocoder(context);
-        List<Address> address = null;
-        LatLng p1 = null;
-
-        try {
-            address = coder.getFromLocation(paramLatLng.getLatitude(), paramLatLng.getLongitude(), 1);
-            if (address == null) {
-                return null;
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return address;
-    }
-
+    //sets navigation route on map
     public void OverlayRouteFromGeoJsonLineString(LineString  routeAsGeoJsonLineString) {
 
         try {
-            // Get the first json route (our primary route)
-            //LineString firstRouteAsLineString = (LineString) GeoJSON.parse(new JSONObject(routeAsGeoJsonLineString));
-
             // Turn it into an array of LatLngs
             List<Position> routeAsPositions = routeAsGeoJsonLineString.getPositions();
             ArrayList<LatLng> routeAsLatLngs = new ArrayList();
@@ -233,14 +173,12 @@ public class NavigationMap extends Fragment {
             po.addPoints(routeAsLatLngs);
             mv.addOverlay(po);
 
-        } catch (Exception ex) {
-//            String exMessage = ex.getMessage();
-//            Log.i(TAG, "Exception in OverlayRouteFromGeoJsonLineString()");
-//            Log.i(TAG, exMessage);
-//            Toast.makeText(currentView.getContext(), "Could not overlay route.", Toast.LENGTH_SHORT).show();
-        }
+        } catch (Exception ex) {}
     }
 
+    /**
+     * custom marker class
+     */
     public class NavCustomInfoWindow extends InfoWindow {
         MapView mapview;
         NavigationMap thisNavMap = null;
@@ -250,27 +188,6 @@ public class NavigationMap extends Fragment {
             super(R.layout.infowindow_custom, mv);
             thisNavMap = argNavMap;
             fragManager = fragmentManager;
-
-            // Add own OnTouchListener to customize handling InfoWindow touch events
-//            TextView linkTextBox = ((TextView) mView.findViewById(R.id.customInfo_Street));
-//            linkTextBox.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    mapview = mv;
-//
-//                    mapview.setZoom(6);
-//
-//                    // make a new marker at our "Current location", being the University of Cincinnati
-//                    Marker cap = new Marker(mapview, "Current Location", "", new LatLng(currentLat, currentLong));
-//                    cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
-//                    mapview.addMarker(cap);
-//
-//
-//                    return true;
-//                }
-//            });
-
-
         }
 
         /**
@@ -287,7 +204,6 @@ public class NavigationMap extends Fragment {
             //Set State, country, zip info
             String stateString = overlayItem.getDescription();
             ((TextView) mView.findViewById(R.id.customInfo_State)).setText(stateString);
-
 
             // Add own OnTouchListener to customize handling InfoWindow touch events
             TextView linkTextBox = ((TextView) mView.findViewById(R.id.customInfo_NavLink));
@@ -312,23 +228,6 @@ public class NavigationMap extends Fragment {
 
                     JsonURLReader currJsonURLReader = new JsonURLReader();
                     currJsonURLReader.execute(query);
-                    //Run AsyncTask
-                    //jsonURLReader reader = new jsonURLReader(getActivity());
-
-
-//                    try {
-//                        reader.execute();//.get();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-
-//                    try {
-//                        jsonURLReader json = new jsonURLReader();
-//                    }
-//                    catch (Exception e) {
-//                        return false;
-//                    }
-                    //Get Waypoints from object
 
                     //Draw from markers to waypoints on map.
                     return true;
@@ -337,42 +236,9 @@ public class NavigationMap extends Fragment {
 
         }
 
-//    public class JsonReader {
-//
-//        private String readAll(Reader rd) throws IOException {
-//            StringBuilder sb = new StringBuilder();
-//            int cp;
-//            while ((cp = rd.read()) != -1) {
-//                sb.append((char) cp);
-//            }
-//            return sb.toString();
-//        }
-//
-//        public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-//            URL jsonPage = new URL(url);
-//            InputStream is = jsonPage.openStream();
-//            try {
-//                BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-//                String jsonText = readAll(rd);
-//                JSONObject json = new JSONObject(jsonText);
-//                return json;
-//            } finally {
-//                is.close();
-//            }
-//        }
-//
-//        public void main(String[] args) throws IOException, JSONException {
-//            jsonURLReader json = new jsonURLReader("https://graph.facebook.com/19292868552");
-//        }
-//    }
-
         //Adapted from code by John Mikolay
 
-
         class JsonURLReader extends AsyncTask<String, Void , JSONObject> {
-            JSONObject[] json = null;
-
-
 
             protected JSONObject doInBackground(String... params) {
 
@@ -386,81 +252,37 @@ public class NavigationMap extends Fragment {
                 }
 
                 return null;
-
             }
-
-
-            private String readAll(Reader rd) throws IOException {
-                StringBuilder sb = new StringBuilder();
-                int cp;
-                while ((cp = rd.read()) != -1) {
-                    sb.append((char) cp);
-                }
-                return sb.toString();
-            }
-
 
             protected void onPostExecute(JSONObject currJSON) {
                 JSONArray routesArray = null;
                 try {
                     routesArray = currJSON.getJSONArray("routes");
-                } catch (Exception e) {
-                    //Toast.makeText(mView.getContext(), "Could not get routes.", Toast.LENGTH_SHORT).show();
-                }
+                } catch (Exception e) {}
 
-                if (routesArray.length() < 1) {
-
-                }
-
+                if (routesArray.length() < 1) {}
                 else if  (routesArray.length() == 1) {
 
                     try {
                         JSONObject firstRouteAsJson = routesArray.getJSONObject(0);
                         LineString firstRouteAsLineString = (LineString) GeoJSON.parse(firstRouteAsJson.getJSONObject("geometry"));
                         thisNavMap.OverlayRouteFromGeoJsonLineString(firstRouteAsLineString);
-                    }
-
-                    catch (Exception e) {
-                    }
+                    }catch (Exception e) {}
                 }
 
                 else {
 
                     try {
                         // Create the new navigation routes fragment and give it the navigation fragment
-                        RouteSelectionFragment newNavRoutesFrag = RouteSelectionFragment.createInstance(routesArray.toString());// new NavigationRoutesFragment();
-                        //newNavRoutesFrag.navFragment = owningNavFragment;
-                        //newNavRoutesFrag.jsonRoutesArray = jsonRoutesArray;
+                        RouteSelectionFragment newNavRoutesFrag = RouteSelectionFragment.createInstance(routesArray.toString());
 
                         FragmentTransaction transaction = fragManager.beginTransaction();
                         transaction.replace(R.id.content_frame, newNavRoutesFrag);
                         transaction.addToBackStack(null);
                         transaction.commit();
-                    }
-
-                    catch (Exception e) {
-                    }
+                    }catch (Exception e) {}
                 }
             }
         }
-
     }
 }
-
-
-
-
-
-
-
-
-    class TaskParameters {
-        StringBuffer data;
-        String url = null;
-        TextView JSONStorage;
-
-        public TaskParameters(StringBuffer argData, String argURL) {
-            data = argData;
-            url = argURL;
-        }
-    }
