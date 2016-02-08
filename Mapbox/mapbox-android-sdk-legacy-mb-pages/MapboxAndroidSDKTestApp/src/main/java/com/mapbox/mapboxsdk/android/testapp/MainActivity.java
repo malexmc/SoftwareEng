@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		testFragmentNames.add(Menu.NONE, i++, Menu.NONE, getString(R.string.mbTilesTestMap));
         testFragmentNames.add(Menu.NONE, i, Menu.NONE, getString(R.string.draggableMarkersTestMap));
 
-
 		// Set the drawer toggle as the DrawerListener
 		final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigationdrawer_open, R.string.navigationdrawer_close);
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 			case 0:
 				fragment = new NavigationFragment();
-
 				break;
 			case 1:
 				fragment = new MainTestFragment();
@@ -206,6 +204,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 
+	/**
+	 * when a user submits an address to search
+	 * creates view with user's defined address as a point
+	 */
 	public void navSearchClick(View v) {
 
 		//Build the specific search query
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		//This address is explicit only for debugging purposes. Will depend on user input later.
 		String address = "6618+Applewood+Blvd.";
 
-
+		//try to get the latitude/longitude from the user-given address
 		Context ourContext = MainActivity.this.getApplicationContext();
 		LatLng currentLatLng = new LatLng(0,0);
 		try {
@@ -237,20 +239,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, navMap, "navMapTag")
 				.commit();
-
-
-
-
-
 	}
 
 	//Converts an address to a Latitude and Longitude
-	public LatLng getLocationFromAddress(Context context, String strAddress) {
+	public static LatLng getLocationFromAddress(Context context, String strAddress) {
 
 		Geocoder coder = new Geocoder(context);
 		List<Address> address;
 		LatLng p1 = null;
 
+		//try to convert address
 		try {
 			address = coder.getFromLocationName(strAddress, 5);
 			if (address == null) {
@@ -268,12 +266,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return p1;
 	}
 
-	public List<Address> getAddressfromLocation(Context context, LatLng paramLatLng) {
+	//converts latitude/longitude into an address
+	public static List<Address> getAddressfromLocation(Context context, LatLng paramLatLng) {
 
 		Geocoder coder = new Geocoder(context);
 		List<Address> address = null;
 		LatLng p1 = null;
 
+		//attempt to get address from longitude/latitude
 		try {
 			address = coder.getFromLocation(paramLatLng.getLatitude(), paramLatLng.getLongitude(), 1);
 			if (address == null) {
