@@ -62,6 +62,14 @@ public class RouteSelectionFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    
+    public static RouteSelectionFragment createInstance(String routes) {
+        RouteSelectionFragment newFragment = new RouteSelectionFragment();
+        Bundle args = new Bundle();
+        args.putString(RoutesasString, routes);
+        newFragment.setArguments(args);
+        return newFragment;
+     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
