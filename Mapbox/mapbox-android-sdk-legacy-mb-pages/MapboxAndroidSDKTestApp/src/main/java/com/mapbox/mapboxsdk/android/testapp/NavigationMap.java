@@ -124,7 +124,7 @@ public class NavigationMap extends Fragment {
 
         //add marker
         Marker cap = new Marker(mv, currentAddress.getAddressLine(0), currentAddress.getAddressLine(1), new LatLng(Latitude, Longitude));
-        cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
+        cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "circle-stroked", "FF0000"));
         cap.setToolTip(new NavCustomInfoWindow( mv, this, getFragmentManager() ) );
         mv.addMarker(cap);
 
@@ -216,7 +216,7 @@ public class NavigationMap extends Fragment {
 
                     // make a new marker at our "Current location", being the University of Cincinnati
                     Marker cap = new Marker(mapview, "Current Location", "", new LatLng(currentLat, currentLong));
-                    cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
+                    cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "circle-stroked", "FF0000"));
                     mapview.addMarker(cap);
 
                     //Form directions query
