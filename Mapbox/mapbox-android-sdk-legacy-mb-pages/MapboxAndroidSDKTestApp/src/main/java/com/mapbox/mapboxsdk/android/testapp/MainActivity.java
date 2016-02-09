@@ -229,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 		} catch(Exception e) {}
 
+		if (currentLatLng != null){
+
 		//With our Lat and Lng set, make a navigation_map fragment, and pass the data to it.
 		Fragment navMap = new NavigationMap();
 		Bundle args = new Bundle();
@@ -241,6 +243,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, navMap, "navMapTag")
 				.commit();
+		}
+		else{
+			Toast.makeText(this,"Location is not a Valid Location",Toast.LENGTH_LONG).show();
+		}
 	}
 
 	//Converts an address to a Latitude and Longitude
@@ -262,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 			p1 = new LatLng(location.getLatitude(), location.getLongitude() );
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			p1 = null;
 		}
 
 		return p1;
