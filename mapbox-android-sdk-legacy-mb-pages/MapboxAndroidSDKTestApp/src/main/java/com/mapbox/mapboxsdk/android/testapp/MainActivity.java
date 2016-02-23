@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 	}
 
-<<<<<<< HEAD:mapbox-android-sdk-legacy-mb-pages/MapboxAndroidSDKTestApp/src/main/java/com/mapbox/mapboxsdk/android/testapp/MainActivity.java
 	public void addToContact(View V) {
 		//Set intent action as ACTION_SEND
 		Intent intent = new Intent("ADD_CONTACT");
@@ -228,8 +227,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 	}
 
-=======
->>>>>>> f599b1f77bad2b83073514998639c400b4404030:Mapbox/mapbox-android-sdk-legacy-mb-pages/MapboxAndroidSDKTestApp/src/main/java/com/mapbox/mapboxsdk/android/testapp/MainActivity.java
 	/**
 	 * when a user submits an address to search
 	 * creates view with user's defined address as a point
