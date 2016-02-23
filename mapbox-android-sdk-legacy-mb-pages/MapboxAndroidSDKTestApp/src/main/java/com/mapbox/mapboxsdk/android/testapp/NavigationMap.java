@@ -2,18 +2,20 @@ package com.mapbox.mapboxsdk.android.testapp;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import android.widget.Toast;
 
 import com.cocoahero.android.geojson.GeoJSON;
@@ -23,19 +25,47 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
+import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.InfoWindow;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.cocoahero.android.geojson.FeatureCollection;
+import com.cocoahero.android.geojson.GeoJSON;
+import com.cocoahero.android.geojson.LineString;
+import com.cocoahero.android.geojson.Position;
+import com.mapbox.mapboxsdk.android.testapp.ui.CustomInfoWindow;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
+import com.mapbox.mapboxsdk.views.MapView;
+import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -153,50 +183,12 @@ public class NavigationMap extends Fragment {
         MapView mapview;
         NavigationMap thisNavMap = null;
         private FragmentManager fragManager;
-        String streetInfo = "";
-        String stateInfo = "";
 
         public NavCustomInfoWindow(final MapView mv, NavigationMap argNavMap, FragmentManager fragmentManager) {
             super(R.layout.infowindow_custom, mv);
             thisNavMap = argNavMap;
             fragManager = fragmentManager;
         }
-
-
-//        @Override
-//        public boolean onSingleTapConfirmed(MotionEvent event) {
-//
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onDoubleTap(MotionEvent event) {
-//            Fragment sendfrag = new SendFragment();
-//            Bundle args = new Bundle();
-//            args.putString("Street Info", streetInfo);
-//            args.putString("State Info", stateInfo);
-//
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                    transaction.replace(((ViewGroup)getView().getParent()).getId(), sendfrag );
-//                    transaction.commit();
-//
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onDoubleTapEvent(MotionEvent event) {
-//            Fragment sendfrag = new SendFragment();
-//            Bundle args = new Bundle();
-//            args.putString("Street Info", streetInfo);
-//            args.putString("State Info", stateInfo);
-//
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//            transaction.replace(((ViewGroup)getView().getParent()).getId(), sendfrag );
-//            transaction.commit();
-//            return true;
-//        }
 
         /**
          * Dynamically set the content in the CustomInfoWindow
@@ -205,46 +197,16 @@ public class NavigationMap extends Fragment {
          */
         @Override
         public void onOpen(final Marker overlayItem) {
-
             //Set Street info
-            streetInfo = overlayItem.getTitle();
-            ((TextView) mView.findViewById(R.id.customInfo_Street)).setText(streetInfo);
+            String streetString = overlayItem.getTitle();
+            ((TextView) mView.findViewById(R.id.customInfo_Street)).setText(streetString);
 
             //Set State, country, zip info
-            stateInfo = overlayItem.getDescription();
-            ((TextView) mView.findViewById(R.id.customInfo_State)).setText(stateInfo);
+            String stateString = overlayItem.getDescription();
+            ((TextView) mView.findViewById(R.id.customInfo_State)).setText(stateString);
 
             // Add own OnTouchListener to customize handling InfoWindow touch events
             TextView linkTextBox = ((TextView) mView.findViewById(R.id.customInfo_NavLink));
-
-
-            //When InfoWindow is long touched, move to SendFragment with info window information
-            setOnLongTouchListener(new View.OnLongClickListener() {
-               @Override
-               public boolean onLongClick(View v) {
-
-                   //Lets us know that the touch was performed
-                   Toast.makeText(getActivity().getApplicationContext(), "Long Touched", Toast.LENGTH_SHORT).show();
-
-                   //Create and populate a data bundle to send to the new fragment
-                    Fragment sendfrag = new SendFragment();
-                    Bundle args = new Bundle();
-                    args.putString("Address", streetInfo);
-                    args.putString("State Info", stateInfo);
-                    sendfrag.setArguments(args);
-
-                   //Switch Fragments
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            //transaction.replace(R.id.navigationMapView, sendfrag );
-                            transaction.replace(R.id.content_frame, sendfrag );
-                            transaction.commit();
-
-                   return true;
-               }
-            });
-
-
             linkTextBox.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -258,19 +220,19 @@ public class NavigationMap extends Fragment {
                     mapview.addMarker(cap);
 
                     //Form directions query
-                    String waypointString = overlayItem.getPosition().getLongitude() + "," + overlayItem.getPosition().getLatitude() + ";"
-                            + currentLong + "," + currentLat;
-                            String query = getString(R.string.directionQuery1) + waypointString + getString(R.string.directionQuery2);
+                    String waypointString = overlayItem.getPosition().getLongitude()+","+ overlayItem.getPosition().getLatitude()+ ";"
+                            +currentLong +"," + currentLat;
+                    String query = getString(R.string.directionQuery1) + waypointString + getString(R.string.directionQuery2);
 
-                            //set up parameters for AsyncTask
+                    //set up parameters for AsyncTask
 
-                            JsonURLReader currJsonURLReader = new JsonURLReader();
-                            currJsonURLReader.execute(query);
+                    JsonURLReader currJsonURLReader = new JsonURLReader();
+                    currJsonURLReader.execute(query);
 
-                            //Draw from markers to waypoints on map.
-                            return true;
-                        }
-                    });
+                    //Draw from markers to waypoints on map.
+                    return true;
+                }
+            });
 
         }
 
