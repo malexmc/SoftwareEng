@@ -47,6 +47,25 @@ public class MainActivity extends Activity {
         contactListView = (ListView) findViewById(R.id.listView);
         contactImageImgView = (ImageView) findViewById(R.id.imgViewContactImage);
 
+        Intent currentIntent = getIntent();
+        Bundle args = getIntent().getBundleExtra("args");
+        if(args != null) {
+
+            if (args.getString("Name") != null) {
+                nameTxt.setText(args.getString("Name"));
+            }
+
+            if (args.getString("Phone") != null) {
+                phoneTxt.setText(args.getString("Phone"));
+            }
+
+            if (args.getString("Address") != null) {
+                addressTxt.setText(args.getString("Address"));
+            }
+
+            findViewById(R.id.btnAdd).setEnabled(true);
+        }
+
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
         tabHost.setup();

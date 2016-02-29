@@ -15,5 +15,7 @@
     <string name="user_address">Address</string>
     <string name="title_activity_privacy_settings">Privacy Settings</string>
     <string name="title_activity_privacy_list">My Message</string>
+    <string name="title_activity_share">ShareActivity</string>
+    <string name="add_contact">Add to Contacts</string>
 
 </resources>

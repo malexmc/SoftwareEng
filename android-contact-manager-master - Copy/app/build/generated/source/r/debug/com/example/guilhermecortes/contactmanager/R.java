@@ -19,19 +19,21 @@ public final class R {
         public static final int no_user_logo=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f08001a;
+        public static final int action_settings=0x7f08001c;
         public static final int addressCheckBox=0x7f080012;
         public static final int btnAdd=0x7f080008;
-        public static final int cAddress=0x7f080019;
-        public static final int contactName=0x7f080016;
-        public static final int emailAddress=0x7f080018;
+        public static final int button=0x7f080016;
+        public static final int cAddress=0x7f08001b;
+        public static final int contactName=0x7f080018;
+        public static final int disp_text=0x7f080015;
+        public static final int emailAddress=0x7f08001a;
         public static final int emailCheckBox=0x7f080014;
         public static final int imgViewContactImage=0x7f080003;
-        public static final int ivContactImage=0x7f080015;
+        public static final int ivContactImage=0x7f080017;
         public static final int lblCreatorTitle=0x7f080002;
         public static final int listView=0x7f08000b;
         public static final int phoneCheckBox=0x7f080013;
-        public static final int phoneNumber=0x7f080017;
+        public static final int phoneNumber=0x7f080019;
         public static final int tabContactList=0x7f080009;
         public static final int tabCreator=0x7f080001;
         public static final int tabHost=0x7f080000;
@@ -50,22 +52,25 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_privacy_settings=0x7f030001;
-        public static final int listview_item=0x7f030002;
+        public static final int activity_share=0x7f030002;
+        public static final int listview_item=0x7f030003;
     }
     public static final class menu {
         public static final int menu_main=0x7f070000;
     }
     public static final class string {
         public static final int action_settings=0x7f050000;
-        public static final int app_name=0x7f050001;
-        public static final int btn_add_contact=0x7f050002;
-        public static final int hello_world=0x7f050003;
-        public static final int title_activity_privacy_list=0x7f050004;
-        public static final int title_activity_privacy_settings=0x7f050005;
-        public static final int user_address=0x7f050006;
-        public static final int user_contact_name=0x7f050007;
-        public static final int user_email=0x7f050008;
-        public static final int user_phone_number=0x7f050009;
+        public static final int add_contact=0x7f050001;
+        public static final int app_name=0x7f050002;
+        public static final int btn_add_contact=0x7f050003;
+        public static final int hello_world=0x7f050004;
+        public static final int title_activity_privacy_list=0x7f050005;
+        public static final int title_activity_privacy_settings=0x7f050006;
+        public static final int title_activity_share=0x7f050007;
+        public static final int user_address=0x7f050008;
+        public static final int user_contact_name=0x7f050009;
+        public static final int user_email=0x7f05000a;
+        public static final int user_phone_number=0x7f05000b;
     }
     public static final class style {
         /**  Customize your theme here. 
