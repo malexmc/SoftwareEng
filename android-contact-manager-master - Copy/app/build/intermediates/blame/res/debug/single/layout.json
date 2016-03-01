@@ -1,5 +1,13 @@
 [
     {
+        "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_share.xml",
+        "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\src\\main\\res\\layout\\activity_share.xml"
+    },
+    {
         "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_privacy_settings.xml",
         "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\src\\main\\res\\layout\\activity_privacy_settings.xml"
     },
@@ -14,5 +22,13 @@
     {
         "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_share.xml",
         "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\src\\main\\res\\layout\\activity_share.xml"
+    },
+    {
+        "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_privacy_settings.xml",
+        "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\src\\main\\res\\layout\\activity_privacy_settings.xml"
+    },
+    {
+        "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\listview_item.xml",
+        "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\src\\main\\res\\layout\\listview_item.xml"
     }
 ]
