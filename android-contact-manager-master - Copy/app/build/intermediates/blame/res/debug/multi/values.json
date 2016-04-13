@@ -582,5 +582,297 @@
                 }
             }
         ]
+    },
+    {
+        "outputFile": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 88,
+                        "endColumn": 57,
+                        "endOffset": 141
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 113,
+                    "endColumn": 55,
+                    "endOffset": 164
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 146,
+                        "endColumn": 55,
+                        "endOffset": 197
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 169,
+                    "endColumn": 52,
+                    "endOffset": 217
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 162,
+                        "endColumn": 52,
+                        "endOffset": 210
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 222,
+                    "endColumn": 55,
+                    "endOffset": 273
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 734,
+                        "endColumn": 55,
+                        "endOffset": 785
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 278,
+                    "endColumn": 52,
+                    "endOffset": 326
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 52,
+                        "endOffset": 104
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 331,
+                    "endColumn": 55,
+                    "endOffset": 382
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 233,
+                        "endColumn": 55,
+                        "endOffset": 284
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 387,
+                    "endColumn": 52,
+                    "endOffset": 435
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 109,
+                        "endColumn": 52,
+                        "endOffset": 157
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 440,
+                    "endColumn": 66,
+                    "endOffset": 502
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 604,
+                        "endColumn": 66,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 507,
+                    "endColumn": 76,
+                    "endOffset": 579
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 527,
+                        "endColumn": 76,
+                        "endOffset": 599
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 584,
+                    "endColumn": 62,
+                    "endOffset": 642
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endColumn": 62,
+                        "endOffset": 729
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 647,
+                    "endColumn": 48,
+                    "endOffset": 691
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 478,
+                        "endColumn": 48,
+                        "endOffset": 522
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 696,
+                    "endColumn": 58,
+                    "endOffset": 750
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 315,
+                        "endColumn": 58,
+                        "endOffset": 369
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 755,
+                    "endColumn": 44,
+                    "endOffset": 795
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 433,
+                        "endColumn": 44,
+                        "endOffset": 473
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 800,
+                    "endColumn": 58,
+                    "endOffset": 854
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 374,
+                        "endColumn": 58,
+                        "endOffset": 428
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 859,
+                    "endLine": 18,
+                    "endColumn": 12,
+                    "endOffset": 987
+                },
+                "from": {
+                    "file": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 54,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 182
+                    }
+                }
+            }
+        ]
     }
 ]

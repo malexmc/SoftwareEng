@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -29,6 +30,7 @@ public class SendFragment extends Fragment {
     private String inputPhone;
     private String inputName;
 
+
     private OnFragmentInteractionListener mListener;
 
     public SendFragment() {
@@ -45,6 +47,8 @@ public class SendFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static SendFragment newInstance(String param1, String param2) {
+
+
         SendFragment fragment = new SendFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -52,6 +56,8 @@ public class SendFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +84,10 @@ public class SendFragment extends Fragment {
         }
 
         inputAddress = argBundle.getString("Address");
+
+
+
+
 
         Toast.makeText(getActivity().getApplicationContext(), "In Send Fragment", Toast.LENGTH_SHORT).show();
     }

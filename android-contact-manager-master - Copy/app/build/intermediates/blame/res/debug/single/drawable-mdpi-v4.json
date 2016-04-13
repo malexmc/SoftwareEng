@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
         "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
         "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactman\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
     },

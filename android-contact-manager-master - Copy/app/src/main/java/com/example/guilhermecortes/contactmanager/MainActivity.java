@@ -1,11 +1,13 @@
 package com.example.guilhermecortes.contactmanager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -26,14 +28,17 @@ import java.util.List;
 import java.util.Objects;
 
 
+
 public class MainActivity extends Activity {
 
     private EditText nameTxt, phoneTxt, emailTxt, addressTxt;
     public Boolean address_set = false;
     ImageView contactImageImgView;
-    List<Contact> Contacts = new ArrayList<Contact>();
+
+    ContactGuard mainContactGuard = new ContactGuard();
     ListView contactListView;
     Uri imageURI = null;
+    String ContactManagerKey = "IAMCONTACTMANAGER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +90,8 @@ public class MainActivity extends Activity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Contacts.add(new Contact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI));
+
+                mainContactGuard.addContact(new Contact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI), ContactManagerKey);
                 populateList();
                 Toast.makeText(getApplicationContext(), nameTxt.getText().toString() +  " has been added to your Contacts!", Toast.LENGTH_SHORT).show();
             }
@@ -180,7 +186,7 @@ public class MainActivity extends Activity {
 
     private class ContactListAdapter extends ArrayAdapter<Contact>{
         public ContactListAdapter(){
-            super (MainActivity.this, R.layout.listview_item, Contacts);
+            super (MainActivity.this, R.layout.listview_item, mainContactGuard.getContacts(ContactManagerKey));
         }
 
         //criar função para retornar o emelento do array
@@ -191,7 +197,7 @@ public class MainActivity extends Activity {
 
             privacySettings addressCheck = new privacySettings();
 
-            Contact currentContact = Contacts.get(position);
+            Contact currentContact = mainContactGuard.getContact(position, ContactManagerKey);
 
             TextView name = (TextView) view.findViewById(R.id.contactName);
             name.setText(currentContact.get_name());
@@ -248,4 +254,47 @@ public class MainActivity extends Activity {
             startActivity(intent1);
         }
     }*/
+
+    public class ContactGuard {
+        private List<Contact> Contacts = new ArrayList<Contact>();;
+
+        public ContactGuard () {}
+
+        public Contact getContact (int position, String key) {
+            if ( key.equals(ContactManagerKey) ){
+                return Contacts.get(position);
+            }
+            else{
+                Toast toast = Toast.makeText(getApplicationContext(), "Unauthorized access of Contact List attempted", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            return null;
+        }
+
+        private void addContact(Contact newContact, String key) {
+            if ( key.equals(ContactManagerKey) ){
+                Contacts.add(newContact);
+            }
+            else{
+                Toast toast = Toast.makeText(getApplicationContext(), "Unauthorized add to Contact List attempted", Toast.LENGTH_SHORT);
+                toast.show();
+
+            }
+
+        }
+
+        private List<Contact> getContacts(String key) {
+            if ( key.equals(ContactManagerKey) ){
+                return Contacts;
+            }
+            else{
+                Toast toast = Toast.makeText(getApplicationContext(), "Unauthorized add to Contact List attempted", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            return null;
+
+        }
+
+    }
 }

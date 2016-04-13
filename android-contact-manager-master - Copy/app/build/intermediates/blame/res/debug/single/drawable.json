@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\no_user_logo.png",
+        "source": "C:\\SoftwareEng-Tues0405\\android-contact-manager-master - Copy\\app\\src\\main\\res\\drawable\\no_user_logo.png"
+    },
+    {
         "merged": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\no_user_logo.png",
         "source": "C:\\Users\\Cicely\\Documents\\GitHub\\SoftwareEng\\contactManager\\app\\src\\main\\res\\drawable\\no_user_logo.png"
     },

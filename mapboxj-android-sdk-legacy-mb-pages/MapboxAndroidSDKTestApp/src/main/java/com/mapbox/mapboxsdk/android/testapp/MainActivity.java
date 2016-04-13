@@ -18,13 +18,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.Icon;
-import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.views.MapView;
-import android.widget.Toast;
+
+import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	private ActionBarDrawerToggle mDrawerToggle;
 	private NavigationView        mNavigationView;
 	private Menu                  testFragmentNames;
+	private String				  mapboxKey = "IAMMAPBOX";
 	private int selectedFragmentIndex = 0;
 
 	@Override
@@ -214,14 +219,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		String title = "Add to";
 
 
+		////////////////////////
+		KeyPairGenerator kpg = null;
+		byte[] data = null;
+		byte[] signatureBytes = null;
+		Signature sig = null;
+		KeyPair keyPair = null;
 
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg.initialize(1024);
+			keyPair = kpg.genKeyPair();
+			data = mapboxKey.getBytes("UTF8");
+			sig = Signature.getInstance("MD5WithRSA");
+			sig.initSign(keyPair.getPrivate());
+			sig.update(data);
+			signatureBytes = sig.sign();
+			//sig.initVerify(keyPair.getPublic());
+			//	sig.update(data);
+
+			//sig.
+
+			//sig.initVerify(keyPair.getPublic());
+			//sig.update(data);
+		}
+		catch(Exception e){}
+		//////////////////////////
+
+		KeyInfo currentKeyInfo = new KeyInfo(keyPair.getPublic(), mapboxKey, signatureBytes);
 		//add extra Message
 		//String message = ((EditText)findViewById(R.id.contactText)).getText().toString();
 		//intent.putExtra(Intent.EXTRA_TEXT, message);
 		intent.putExtra("Address", ((EditText)findViewById(R.id.address_input)).getText().toString());
 		intent.putExtra("Phone", ((EditText)findViewById(R.id.phone_input)).getText().toString());
 		intent.putExtra("Name", ((EditText)findViewById(R.id.name_input)).getText().toString());
-		//start intent
+		intent.putExtra("KeyInfo", currentKeyInfo);
+				//start intent
 
 		startActivity(intent);
 
@@ -315,5 +348,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		}
 
 		return address;
+	}
+
+	public Signature signatureGenerator(String key) {
+		KeyPairGenerator kpg = null;
+		byte[] data = null;
+		//byte[] signatureBytes = null;
+		Signature sig = null;
+		KeyPair keyPair = null;
+
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg.initialize(1024);
+			keyPair = kpg.genKeyPair();
+			data = key.getBytes("UTF8");
+			sig = Signature.getInstance("MD5WithRSA");
+			sig.initSign(keyPair.getPrivate());
+			sig.update(data);
+			//signatureBytes = sig.sign();
+			//sig.initVerify(keyPair.getPublic());
+		//	sig.update(data);
+
+			//sig.
+
+			//sig.initVerify(keyPair.getPublic());
+			//sig.update(data);
+		}
+		catch(Exception e){}
+
+
+
+		return sig;
+	}
+
+	public class KeyInfo implements Serializable {
+		private PublicKey pubkey = null;
+		private String data = null;
+		private byte[] signatureBytes = null;
+
+		public KeyInfo(PublicKey pubKey, String data, byte[] signatureBytes){
+			this.pubkey = pubkey;
+			this.data = data;
+			this.signatureBytes = signatureBytes;
+		}
+
+		public PublicKey getPubKey (){
+			return pubkey;
+		}
+
+		public byte[] getData (){
+			return data.getBytes();
+		}
+
+		public byte[] getSignatureBytes (){
+			return signatureBytes;
+		}
 	}
 }

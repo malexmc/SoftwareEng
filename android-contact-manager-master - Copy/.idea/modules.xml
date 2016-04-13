@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-contact-manager-master - Copy.iml" filepath="$PROJECT_DIR$/android-contact-manager-master - Copy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/contactManager.iml" filepath="$PROJECT_DIR$/contactManager.iml" />
     </modules>
   </component>
 </project>
