@@ -43,7 +43,7 @@
     <string name="geoQuery1">https://api.mapbox.com/geocoding/v5/mapbox.places/</string>
     <string name="geoQuery2">.json?access_token=pk.eyJ1IjoiYmxlZWdlIiwiYSI6IkRGLTFPU00ifQ.qJpq3jytAL9A-z_tkNypqg;</string>
     <string name="directionQuery1">https://api.mapbox.com/v4/directions/mapbox.driving/</string>
-    <string name="directionQuery2">.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpamVuY3cxbzAwMG12ZGx4cGljbGtqMGUifQ.vpDqms08MBqoRgp667Yz5Q</string>
+    <string name="directionQuery2">.json?access_token=pk.eyJ1IjoiYmxlZWdlIiwiYSI6IkRGLTFPU00ifQ.qJpq3jytAL9A-z_tkNypqg</string>
     <string name="NavHereUnderlined"><u>Navigate Here...</u></string>
     >
     <string name="navigationdrawer_open">open</string>
