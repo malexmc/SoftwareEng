@@ -7,12 +7,15 @@ import android.app.Activity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
 import java.io.Serializable;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
 
@@ -30,21 +33,11 @@ public class ShareActivity extends Activity {
 
         //If intent action is ADD_CONTACT
         if(action.equals("ADD_CONTACT")){
-            Signature sig = null;
 
-            KeyInfo mapboxKeyInfo = (KeyInfo) currentIntent.getSerializableExtra("KeyInfo");
-            Boolean equivalent = false;
-
-            try {
-                sig = Signature.getInstance("MD5WithRSA");
-                sig.initVerify(mapboxKeyInfo.getPubKey());
-                sig.update(mapboxKeyInfo.getData());
-                equivalent = sig.verify(mapboxKeyInfo.getSignatureBytes());
-            }
-            catch(Exception e){}
-
-
-            if (equivalent) {
+            // Use the sigVerifier function with the Data, encoded public key, and the signature bytes
+            // from our Bestie, Mapbox, to make sure it really was Mapbox sending this stuff.
+            //If Verifier certifies it was good data, extract it, else complain and quit.
+            if (sigVerifier(/*currentIntent.getByteArrayExtra("Data")*/ "IAMMAPBOX".getBytes(),  currentIntent.getByteArrayExtra("PubKey"), currentIntent.getByteArrayExtra("SigBytes"))) {
                 String address_string = currentIntent.getStringExtra("Address");
                 String phone_string = currentIntent.getStringExtra("Phone");
                 String name_string = currentIntent.getStringExtra("Name");
@@ -71,44 +64,24 @@ public class ShareActivity extends Activity {
         }
     }
 
-    public static String keyDigester(String key){
-        MessageDigest messageDigest = null;
-        String encryptedString = null;
+    public Boolean sigVerifier(byte[] data, byte[] keyBytes, byte[] sigBytes){
         try {
-            messageDigest = MessageDigest.getInstance("MD5");
+
+            //Make key bytes into actual key
+            X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
+
+            //make signature bytes into signature
+            Signature newsig = Signature.getInstance("MD5WithRSA");
+            newsig.initVerify(pubKey);
+            newsig.update(data);
+
+            //Validate Signature
+            return newsig.verify(sigBytes);
         }
 
         catch(Exception e){}
-
-        if(messageDigest != null) {
-            messageDigest.update(key.getBytes());
-            encryptedString = new String(messageDigest.digest());
-        }
-        return encryptedString;
+        return false;
     }
-
-    public class KeyInfo implements Serializable {
-        private PublicKey pubkey = null;
-        private String data = null;
-        private byte[] signatureBytes = null;
-
-        public KeyInfo(PublicKey pubKey, String data, byte[] signatureBytes){
-            this.pubkey = pubkey;
-            this.data = data;
-            this.signatureBytes = signatureBytes;
-        }
-
-        public PublicKey getPubKey (){
-            return pubkey;
-        }
-
-        public byte[] getData (){
-            return data.getBytes();
-        }
-
-        public byte[] getSignatureBytes (){
-            return signatureBytes;
-        }
-    }
-
 }

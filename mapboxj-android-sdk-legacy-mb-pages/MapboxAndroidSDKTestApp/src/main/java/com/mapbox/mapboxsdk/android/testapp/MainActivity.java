@@ -22,11 +22,17 @@ import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
 
@@ -217,43 +223,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		//Set intent action as ACTION_SEND
 		Intent intent = new Intent("ADD_CONTACT");
 		String title = "Add to";
-
-
-		////////////////////////
 		KeyPairGenerator kpg = null;
 		byte[] data = null;
 		byte[] signatureBytes = null;
+		byte[] keyBytes = null;
 		Signature sig = null;
 		KeyPair keyPair = null;
 
+
 		try {
+			//Initialize KeyPairGenerator with "RSA" algorithm
 			kpg = KeyPairGenerator.getInstance("RSA");
 			kpg.initialize(1024);
 			keyPair = kpg.genKeyPair();
+
+			//Fill "Data" with the bytes of the mapboxKey string
 			data = mapboxKey.getBytes("UTF8");
+
+			//Initialize signature
 			sig = Signature.getInstance("MD5WithRSA");
+
+			//Begin the signing process by imprinting the signature with the
+			// private generated key with KeyPairGenerator
 			sig.initSign(keyPair.getPrivate());
+
+			//Offer the data to signature
 			sig.update(data);
+
+			//Sign that bad boy
 			signatureBytes = sig.sign();
-			//sig.initVerify(keyPair.getPublic());
-			//	sig.update(data);
 
-			//sig.
+			//Encode the public key to send to our BFF ContactManager
+			keyBytes = keyPair.getPublic().getEncoded();
 
-			//sig.initVerify(keyPair.getPublic());
-			//sig.update(data);
 		}
 		catch(Exception e){}
-		//////////////////////////
 
-		KeyInfo currentKeyInfo = new KeyInfo(keyPair.getPublic(), mapboxKey, signatureBytes);
-		//add extra Message
-		//String message = ((EditText)findViewById(R.id.contactText)).getText().toString();
-		//intent.putExtra(Intent.EXTRA_TEXT, message);
-		intent.putExtra("Address", ((EditText)findViewById(R.id.address_input)).getText().toString());
-		intent.putExtra("Phone", ((EditText)findViewById(R.id.phone_input)).getText().toString());
-		intent.putExtra("Name", ((EditText)findViewById(R.id.name_input)).getText().toString());
-		intent.putExtra("KeyInfo", currentKeyInfo);
+
+
+		//add extra Data to intent
+		intent.putExtra("Address", ((EditText)findViewById(R.id.address_input)).getText().toString()); //String
+		intent.putExtra("Phone", ((EditText)findViewById(R.id.phone_input)).getText().toString()); //String
+		intent.putExtra("Name", ((EditText)findViewById(R.id.name_input)).getText().toString()); //String
+		intent.putExtra("Data", data); //byte[]
+		intent.putExtra("PubKey", keyBytes); //byte[]
+		intent.putExtra("SigBytes", signatureBytes); //byte[]
 				//start intent
 
 		startActivity(intent);
@@ -350,58 +364,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		return address;
 	}
 
-	public Signature signatureGenerator(String key) {
-		KeyPairGenerator kpg = null;
-		byte[] data = null;
-		//byte[] signatureBytes = null;
-		Signature sig = null;
-		KeyPair keyPair = null;
-
-		try {
-			kpg = KeyPairGenerator.getInstance("RSA");
-			kpg.initialize(1024);
-			keyPair = kpg.genKeyPair();
-			data = key.getBytes("UTF8");
-			sig = Signature.getInstance("MD5WithRSA");
-			sig.initSign(keyPair.getPrivate());
-			sig.update(data);
-			//signatureBytes = sig.sign();
-			//sig.initVerify(keyPair.getPublic());
-		//	sig.update(data);
-
-			//sig.
-
-			//sig.initVerify(keyPair.getPublic());
-			//sig.update(data);
-		}
-		catch(Exception e){}
-
-
-
-		return sig;
-	}
-
-	public class KeyInfo implements Serializable {
-		private PublicKey pubkey = null;
-		private String data = null;
-		private byte[] signatureBytes = null;
-
-		public KeyInfo(PublicKey pubKey, String data, byte[] signatureBytes){
-			this.pubkey = pubkey;
-			this.data = data;
-			this.signatureBytes = signatureBytes;
-		}
-
-		public PublicKey getPubKey (){
-			return pubkey;
-		}
-
-		public byte[] getData (){
-			return data.getBytes();
-		}
-
-		public byte[] getSignatureBytes (){
-			return signatureBytes;
-		}
-	}
 }
