@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class MainActivity extends Activity {
@@ -56,17 +60,32 @@ public class MainActivity extends Activity {
         Bundle args = getIntent().getBundleExtra("args");
         if(args != null) {
 
-            if (args.getString("Name") != null) {
-                nameTxt.setText(args.getString("Name"));
+            Toast.makeText(this,currentIntent.getByteArrayExtra("Address").toString(),Toast.LENGTH_LONG).show();
+
+            try{
+            Cipher ciphDaddy;
+            KeyGenerator keygen = KeyGenerator.getInstance("AES");
+            SecretKey secretKey = keygen.generateKey();
+            ciphDaddy = Cipher.getInstance("AES");
+            ciphDaddy.init(Cipher.DECRYPT_MODE, secretKey);
+
+            String contactAddress = new String(ciphDaddy.doFinal(currentIntent.getByteArrayExtra("Address")));
+            Toast.makeText(this,contactAddress,Toast.LENGTH_LONG).show();
+            String contactName = currentIntent.getByteArrayExtra("Name").toString();
+            String contactPhone = currentIntent.getByteArrayExtra("Phone").toString();
+
+            if (contactAddress != null) {
+                nameTxt.setText(contactAddress);
             }
 
-            if (args.getString("Phone") != null) {
-                phoneTxt.setText(args.getString("Phone"));
+            if (contactName != null) {
+                phoneTxt.setText(contactName);
             }
 
-            if (args.getString("Address") != null) {
-                addressTxt.setText(args.getString("Address"));
-            }
+            if (contactPhone != null) {
+                addressTxt.setText(contactPhone);
+            }}
+            catch(Exception e){}
 
             findViewById(R.id.btnAdd).setEnabled(true);
         }
@@ -93,7 +112,7 @@ public class MainActivity extends Activity {
 
                 mainContactGuard.addContact(new Contact(nameTxt.getText().toString(), phoneTxt.getText().toString(), emailTxt.getText().toString(), addressTxt.getText().toString(), imageURI), ContactManagerKey);
                 populateList();
-                Toast.makeText(getApplicationContext(), nameTxt.getText().toString() +  " has been added to your Contacts!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), nameTxt.getText().toString() + " has been added to your Contacts!", Toast.LENGTH_SHORT).show();
             }
         });
 

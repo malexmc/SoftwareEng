@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,11 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -229,45 +235,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		byte[] keyBytes = null;
 		Signature sig = null;
 		KeyPair keyPair = null;
+		Cipher ciphDaddy = null;
 
 
 		try {
+			SecretKeySpec key = new SecretKeySpec(mapboxKey.getBytes(),"AES");
+			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding","BC");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+
+			byte[] cipherText = new byte[cipher.getOutputSize(findViewById(R.id.name_input).toString().length())];
+			int ctLength = cipher.update(findViewById(R.id.name_input).toString().getBytes(),0, findViewById(R.id.name_input).toString().length(), cipherText);
+			ctLength += cipher.doFinal(cipherText, ctLength);
+
 			//Initialize KeyPairGenerator with "RSA" algorithm
-			kpg = KeyPairGenerator.getInstance("RSA");
-			kpg.initialize(1024);
+			//kpg = KeyPairGenerator.getInstance("RSA");
+			//kpg.initialize(1024);
 			keyPair = kpg.genKeyPair();
 
 			//Fill "Data" with the bytes of the mapboxKey string
-			data = mapboxKey.getBytes("UTF8");
+			//data = mapboxKey.getBytes("UTF8");
 
 			//Initialize signature
-			sig = Signature.getInstance("MD5WithRSA");
+			//sig = Signature.getInstance("MD5WithRSA");
 
 			//Begin the signing process by imprinting the signature with the
 			// private generated key with KeyPairGenerator
-			sig.initSign(keyPair.getPrivate());
+			//sig.initSign(keyPair.getPrivate());
 
 			//Offer the data to signature
-			sig.update(data);
+			//sig.update(data);
 
 			//Sign that bad boy
 			signatureBytes = sig.sign();
 
 			//Encode the public key to send to our BFF ContactManager
-			keyBytes = keyPair.getPublic().getEncoded();
+			//keyBytes = keyPair.getPublic().getEncoded();
 
+			//Cipher ciphDaddy = getCipher();
+
+			//intent.putExtra("Address", ciphDaddy.doFinal((((EditText)findViewById(R.id.address_input)).getText().toString().getBytes()))); //String
+			//intent.putExtra("Phone", ciphDaddy.doFinal((((EditText) findViewById(R.id.phone_input)).getText().toString().getBytes()))); //String
+			//intent.putExtra("Name", ciphDaddy.doFinal((((EditText) findViewById(R.id.name_input)).getText().toString().getBytes()))); //String
+
+			/*String test = null;
+			Cipher newCiphDaddy = Cipher.getInstance("AES");
+			newCiphDaddy.init(Cipher.DECRYPT_MODE, secretKey);
+			KeyGenerator newKeygen = KeyGenerator.getInstance("AES");
+			SecretKey newSecretKey = keygen.generateKey();
+
+			test = newCiphDaddy.doFinal(ciphDaddy.doFinal((((EditText)findViewById(R.id.address_input)).getText().toString().getBytes()))).toString();
+			String stop = "STOP";*/
 		}
 		catch(Exception e){}
 
 
 
 		//add extra Data to intent
-		intent.putExtra("Address", ((EditText)findViewById(R.id.address_input)).getText().toString()); //String
-		intent.putExtra("Phone", ((EditText)findViewById(R.id.phone_input)).getText().toString()); //String
-		intent.putExtra("Name", ((EditText)findViewById(R.id.name_input)).getText().toString()); //String
+		//intent.putExtra("Address", ((EditText)findViewById(R.id.address_input)).getText().toString()); //String
+		//intent.putExtra("Phone", ((EditText)findViewById(R.id.phone_input)).getText().toString()); //String
+		//intent.putExtra("Name", ((EditText)findViewById(R.id.name_input)).getText().toString()); //String
 		intent.putExtra("Data", data); //byte[]
 		intent.putExtra("PubKey", keyBytes); //byte[]
-		intent.putExtra("SigBytes", signatureBytes); //byte[]
+		intent.putExtra("SigBytes", signatureBytes); //byte]
 				//start intent
 
 		startActivity(intent);
@@ -334,7 +363,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			Address location = address.get(0);
 			location.getLatitude();
 			location.getLongitude();
-
+			String toastString = "Showing address for " + location.getAddressLine(0) + location.getAddressLine(1) + location.getAddressLine(2);
+			Toast.makeText(context,toastString,Toast.LENGTH_LONG).show();
 			p1 = new LatLng(location.getLatitude(), location.getLongitude() );
 		} catch (Exception ex) {
 			p1 = null;
@@ -356,6 +386,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			if (address == null) {
 				return null;
 			}
+
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

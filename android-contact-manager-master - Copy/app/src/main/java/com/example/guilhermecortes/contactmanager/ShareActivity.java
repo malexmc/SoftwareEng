@@ -38,21 +38,23 @@ public class ShareActivity extends Activity {
             // from our Bestie, Mapbox, to make sure it really was Mapbox sending this stuff.
             //If Verifier certifies it was good data, extract it, else complain and quit.
             if (sigVerifier(/*currentIntent.getByteArrayExtra("Data")*/ "IAMMAPBOX".getBytes(),  currentIntent.getByteArrayExtra("PubKey"), currentIntent.getByteArrayExtra("SigBytes"))) {
-                String address_string = currentIntent.getStringExtra("Address");
-                String phone_string = currentIntent.getStringExtra("Phone");
-                String name_string = currentIntent.getStringExtra("Name");
+                byte[] address_string = currentIntent.getByteArrayExtra("Address");
+                byte[] phone_string = currentIntent.getByteArrayExtra("Phone");
+                byte[] name_string = currentIntent.getByteArrayExtra("Name");
 
                 Bundle args = new Bundle();
-
-                args.putString("Address", address_string);
-                args.putString("Name", name_string);
-                args.putString("Phone", phone_string);
+                args.putByteArray("Address", address_string);
+                args.putByteArray("Name", name_string);
+                args.putByteArray("Phone", phone_string);
 
 
                 Context context = getApplicationContext();
                 Intent startIntent = new Intent(context, MainActivity.class);
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startIntent.putExtra("args", args);
+                startIntent.putExtra("Address", address_string);
+                startIntent.putExtra("Name", name_string);
+                startIntent.putExtra("Phone", phone_string);
                 context.startActivity(startIntent);
             }
 
